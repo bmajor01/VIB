@@ -10,13 +10,10 @@ Outdir = r"G:\Measurements\241112_RezgesSzakdoga\241406_Tesztpad\measurements\re
 folders = os.listdir(MeasFolders)
 #print(folders)
 
-CH1Vibs = []
-CH2Vibs = []
-CH3Vibs = []
-
 files = os.listdir(os.path.join(MeasFolders,folders[0]))
 
 speeds = []
+
 for file in files:
     fname = file.split("_")
     if fname[1] == "vib.npz":
@@ -25,8 +22,14 @@ for file in files:
         speeds.append(int(speedstr[1::]))
 #print(speeds)
 
+
 for speed in speeds:
 
+    CH1Vibs = []
+    CH2Vibs = []
+    CH3Vibs = []
+    locations = []
+    
     fname = "G3 S"+ str(speed) +" A20_vib.npz"
     
     for folder in folders:
@@ -83,20 +86,28 @@ for speed in speeds:
         CH1Vibs.append(CH1_FFT[0:length])
         CH2Vibs.append(CH2_FFT[0:length])
         CH3Vibs.append(CH3_FFT[0:length])
+        locations.append(folder)
 
             # plt.imshow(CH2,aspect='auto', cmap='jet')
             # plt.imshow(CH3,aspect='auto', cmap='jet')
         lastFolder = folder
-
         
     #outfile = file.split(".")
 
     print(os.path.join(Outdir, str("fft_" + str(speed) + ".npz")))
 
-    np.savez((os.path.join(Outdir, str("fft_" + str(speed) + ".npz"))),speed,CH1Vibs,CH2Vibs,CH3Vibs)
+    np.savez((os.path.join(Outdir, str("fft_" + str(speed) + ".npz"))),locations,speed,CH1Vibs,CH2Vibs,CH3Vibs,freq[0:length])
 
-    plt.imshow(CH1Vibs,aspect='auto',cmap='jet')
-    plt.show()
+    # plt.subplot(1,3,1)
+    # plt.imshow(CH1Vibs,aspect='auto',cmap='jet')
+    # plt.title(speed)
+    # plt.subplot(1,3,2)
+    # plt.imshow(CH2Vibs,aspect='auto',cmap='jet')
+    # plt.title(speed)
+    # plt.subplot(1,3,3)
+    # plt.imshow(CH3Vibs,aspect='auto',cmap='jet')
+    # plt.title(speed)
+    # plt.show()
 # for samples in range(len(CH1Vibs)):
 #     plt.plot(freq[0:length],CH1Vibs[samples])
 #plt.imshow(CH1Vibs,aspect='auto',cmap='jet')
