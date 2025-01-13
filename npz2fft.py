@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt  # Library for plotting
 from numpy.fft import fft, ifft
 from array import array
 
-MeasFolders = r"G:\Measurements\241112_RezgesSzakdoga\241406_Tesztpad\measurements\TesztPadRezgésTerjedés"
-Outdir = r"G:\Measurements\241112_RezgesSzakdoga\241406_Tesztpad\measurements\rezgesterjedes_result"
+MeasFolders = r"G:\Measurements\241112_RezgesSzakdoga\241406_Tesztpad\measurements\RezgesTerjedes01"
+Outdir = r"G:\Measurements\241112_RezgesSzakdoga\241406_Tesztpad\measurements\RezgesTerjedesResult01"
 
 folders = os.listdir(MeasFolders)
 #print(folders)
@@ -21,6 +21,11 @@ for file in files:
         speedstr = fnamestrs[1]
         speeds.append(int(speedstr[1::]))
 #print(speeds)
+
+#MEASUREMENT LENGTH
+N = 100000
+#MEASUREMENT SAMPLE RATE
+sr = 10000
 
 
 for speed in speeds:
@@ -40,10 +45,10 @@ for speed in speeds:
 
         #print(folder, file)
 
-        crop = 1000
+        crop = 10000
 
-        fftlength = 20000-crop
-        sr = 2000
+        fftlength = N-crop
+        #sr = 2000
 
         freq = np.fft.fftfreq(fftlength,1/sr)
 
